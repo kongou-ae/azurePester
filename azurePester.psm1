@@ -9,12 +9,13 @@ function Test-AzRmVm {
     param(
         [Parameter(ValueFromPipeline=$true,Mandatory=$true)]
         [Microsoft.Azure.Commands.Compute.Models.PSVirtualMachineList]$vm,
-        [string]$Name,
-        [string]$Location,
-        [string]$VmSize,
-        [string]$OsType,
-        [string]$PrivateIpAddress,
-        [string]$AdminUsername
+        [String]$Name,
+        [String]$Location,
+        [String]$VmSize,
+        [String]$OsType,
+        [String]$PrivateIpAddress,
+        [String]$AdminUsername,
+        [Int]$DataDisks_Count
     )
 
     function Get-VmPrivateIPAddress{
@@ -70,7 +71,11 @@ function Test-AzRmVm {
             }           
         }
 
-
+        if($DataDisks_Count){
+            it "DataDisks_Count should be $DataDisks_Count" {
+                $vm.StorageProfile.DataDisks.Count | Should be $DataDisks_Count
+            }                
+        }
     }
 }
 
