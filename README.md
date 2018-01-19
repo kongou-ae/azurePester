@@ -21,6 +21,8 @@ $vm | Test-AzRmVm -Name testvm `
             -Location westeurope `
             -OsType Windows `
             -PrivateIpAddress 10.2.3.4
+            -AdminUsername aimless `
+            -DataDisks_Count 4
 ```
 
 The result is following.
