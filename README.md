@@ -32,3 +32,9 @@ The result is following.
 ## Supported recources
 
 - Virtual Machine
+  - VmSize
+  - Location
+  - OsType
+  - PrivateIpAddress
+  - AdminUsername
+  - DataDisks_Count
