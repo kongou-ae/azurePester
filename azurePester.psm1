@@ -13,7 +13,8 @@ function Test-AzRmVm {
         [string]$Location,
         [string]$VmSize,
         [string]$OsType,
-        [string]$PrivateIpAddress
+        [string]$PrivateIpAddress,
+        [string]$AdminUsername
     )
 
     function Get-VmPrivateIPAddress{
@@ -61,6 +62,12 @@ function Test-AzRmVm {
             it "PrivateIpAddress should be $PrivateIpAddress" {
                 Get-VmPrivateIPAddress($vm.NetworkProfile.NetworkInterfaces[0].id) | Should be $PrivateIpAddress
             }
+        }
+
+        if($AdminUsername){
+            it "AdminUsername should be $AdminUsername" {
+                $vm.OSProfile.AdminUsername | Should be $AdminUsername
+            }           
         }
 
 
