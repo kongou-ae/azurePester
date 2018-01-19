@@ -26,3 +26,7 @@ $vm | Test-AzRmVm -Name testvm `
 The result is following.
 
 ![](./result.PNG)
+
+## Supported recources
+
+- Virtual Machine
