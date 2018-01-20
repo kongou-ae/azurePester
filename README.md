@@ -20,9 +20,9 @@ $vm | Test-AzRmVm -Name testvm `
             -VmSize Standard_B1s `
             -Location westeurope `
             -OsType Windows `
-            -PrivateIpAddress 10.2.3.4
+            -PrivateIpAddress 10.2.3.4 `
             -AdminUsername aimless `
-            -DataDisks_Count 4
+            -DataDisks_Count 0
 
 $vnets = Get-AzureRmVirtualNetwork
 $vnet = $vnets[0]
