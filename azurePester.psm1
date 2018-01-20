@@ -9,6 +9,9 @@ function Test-AzRmVm {
     param(
         [Parameter(ValueFromPipeline=$true,Mandatory=$true)]
         [Microsoft.Azure.Commands.Compute.Models.PSVirtualMachineList]$vm,
+        [Parameter()]
+        [ValidateSet("Should Be", "Should BeExactly", "Should Match")]
+        [String]$Method = "Should Be",
         [String]$Name,
         [String]$Location,
         [String]$VmSize,
@@ -36,44 +39,74 @@ function Test-AzRmVm {
 
     Describe "Checking Virtual Machine" {
         if($name){
-            it "VM name should be $name" {
-                $vm.Name | Should Be $name
+            it "VM name $Method $name" {
+                switch ($Method) {
+                    "Should Be"         { $vm.Name | Should Be $name }
+                    "Should BeExactly"  { $vm.Name | Should BeExactly $name }
+                    "Should Match"      { $vm.Name | Should Match $name } 
+                }
             }
         }
 
         if($Location){
-            it "VM location should be $Location" {
-                $vm.Location | Should Be $Location
+            it "VM location $Method $Location" {
+                switch ($Method) {
+                    "Should Be"         { $vm.Location | Should Be $Location }
+                    "Should BeExactly"  { $vm.Location | Should BeExactly $Location }
+                    "Should Match"      { $vm.Location | Should Match $Location }
+                }
             }
         }
 
         if($VmSize){
-            it "VM size should be $VmSize" {
-                $vm.HardwareProfile.VmSize | Should be $VmSize
+            it "VM size $Method $VmSize" {
+                switch ($Method) {
+                    "Should Be"         { $vm.HardwareProfile.VmSize | Should Be $VmSize }
+                    "Should BeExactly"  { $vm.HardwareProfile.VmSize | Should BeExactly $VmSize }
+                    "Should Match"      { $vm.HardwareProfile.VmSize | Should Match $VmSize }
+                }
             }
         }
 
         if($OsType){
-            it "OsType should be $OsType" {
-                $vm.StorageProfile.OsDisk.OsType | Should be $OsType
+            it "OsType $Method $OsType" {
+                switch ($Method) {
+                    "Should Be"         { $vm.StorageProfile.OsDisk.OsType | Should Be $OsType }
+                    "Should BeExactly"  { $vm.StorageProfile.OsDisk.OsType | Should BeExactly $OsType }
+                    "Should Match"      { $vm.StorageProfile.OsDisk.OsType | Should Match $OsType }
+                }
             }
         }
 
         if($PrivateIpAddress){
-            it "PrivateIpAddress should be $PrivateIpAddress" {
-                Get-VmPrivateIPAddress($vm.NetworkProfile.NetworkInterfaces[0].id) | Should be $PrivateIpAddress
+            it "PrivateIpAddress $Method $PrivateIpAddress" {
+                switch ($Method) {
+                    "Should Be"         { Get-VmPrivateIPAddress($vm.NetworkProfile.NetworkInterfaces[0].id) | Should Be $PrivateIpAddress }
+                    "Should BeExactly"  { Get-VmPrivateIPAddress($vm.NetworkProfile.NetworkInterfaces[0].id) | Should BeExactly $PrivateIpAddress }
+                    "Should Match"      { Get-VmPrivateIPAddress($vm.NetworkProfile.NetworkInterfaces[0].id) | Should Match $PrivateIpAddress }
+                }
+                
             }
         }
 
         if($AdminUsername){
-            it "AdminUsername should be $AdminUsername" {
-                $vm.OSProfile.AdminUsername | Should be $AdminUsername
+            it "AdminUsername $Method $AdminUsername" {
+                switch ($Method) {
+                    "Should Be"         { $vm.OSProfile.AdminUsername | Should Be $AdminUsername }
+                    "Should BeExactly"  { $vm.OSProfile.AdminUsername | Should BeExactly $AdminUsername }
+                    "Should Match"      { $vm.OSProfile.AdminUsername | Should Match $AdminUsername }
+                }
             }           
         }
 
         if($DataDisks_Count){
-            it "DataDisks_Count should be $DataDisks_Count" {
-                $vm.StorageProfile.DataDisks.Count | Should be $DataDisks_Count
+            it "DataDisks_Count $Method $DataDisks_Count" {
+                switch ($Method) {
+                    "Should Be"         { $vm.StorageProfile.DataDisks.Count | Should Be $DataDisks_Count }
+                    "Should BeExactly"  { $vm.StorageProfile.DataDisks.Count | Should BeExactly $DataDisks_Count }
+                    "Should Match"      { $vm.StorageProfile.DataDisks.Count | Should Match $DataDisks_Count }
+                }
+                
             }                
         }
     }
@@ -91,6 +124,9 @@ function Test-AzRmVnet {
     param(
         [Parameter(ValueFromPipeline=$true,Mandatory=$true)]
         [Microsoft.Azure.Commands.Network.Models.PSVirtualNetwork]$vnet,
+        [Parameter()]
+        [ValidateSet("Should Be", "Should BeExactly", "Should Match")]
+        [String]$Method = "Should Be",
         [String]$Name,
         [String]$Location,
         [System.Array]$AddressPrefixes,
@@ -98,27 +134,43 @@ function Test-AzRmVnet {
     )
 
     Describe "Checking Virtual Network" {
-        if($name){
-            it "Vnet name should be $name" {
-                $vnet.Name | Should Be $name
+        if($Name){
+            it "Vnet name $Method $Name" {
+                switch ($Method) {
+                    "Should Be"         { $vnet.Name | Should Be $Name }
+                    "Should BeExactly"  { $vnet.Name | Should BeExactly $Name }
+                    "Should Match"      { $vnet.Name | Should Match $Name } 
+                }
             }
         }
 
         if($Location){
-            it "Vnet location should be $Location" {
-                $vnet.Location | Should Be $Location
+            it "Vnet location $Method $Location" {
+                switch ($Method) {
+                    "Should Be"         { $vnet.Location | Should Be $Location }
+                    "Should BeExactly"  { $vnet.Location | Should BeExactly $Location }
+                    "Should Match"      { $vnet.Location | Should Match $Location } 
+                }
             }
         }
 
         if($AddressPrefixes){
-            it "Vnet AddressPrefixes should be $AddressPrefixes" {
-                $vnet.AddressSpace.AddressPrefixes -join "," | Should be ($AddressPrefixes -join ",")
+            it "Vnet AddressPrefixes $Method $AddressPrefixes" {
+                switch ($Method) {
+                    "Should Be"         { $vnet.AddressSpace.AddressPrefixes -join "," | Should Be ($AddressPrefixes -join ",") }
+                    "Should BeExactly"  { $vnet.AddressSpace.AddressPrefixes -join "," | Should BeExactly ($AddressPrefixes -join ",") }
+                    "Should Match"      { $vnet.AddressSpace.AddressPrefixes -join "," | Should Match ($AddressPrefixes -join ",") }
+                }
             }
         }
 
         if($DnsServers){
-            it "DnsServers should be $DnsServers" {
-                $vnet.DhcpOptions.DnsServers -join "," | Should be ($DnsServers -join ",")
+            it "DnsServers $Method $DnsServers" {
+                switch ($Method) {
+                    "Should Be"         { $vnet.DhcpOptions.DnsServers -join "," | Should Be ($DnsServers -join ",") }
+                    "Should BeExactly"  { $vnet.DhcpOptions.DnsServers -join "," | Should BeExactly ($DnsServers -join ",") }
+                    "Should Match"      { $vnet.DhcpOptions.DnsServers -join "," | Should Match ($DnsServers -join ",") }
+                }
             }
         }
     }
