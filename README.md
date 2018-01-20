@@ -15,7 +15,6 @@ Import-Module ./azurePester.psm1
 ```powershell
 $vms = Get-AzureRmVM
 $vm = $vms[0]
-
 $vm | Test-AzRmVm -Name testvm `
             -VmSize Standard_B1s `
             -Location westeurope `
@@ -26,11 +25,18 @@ $vm | Test-AzRmVm -Name testvm `
 
 $vnets = Get-AzureRmVirtualNetwork
 $vnet = $vnets[0]
-
 $vnet | Test-AzRmVnet -Name azurelabvnet648 `
             -Location westus `
             -AddressPrefixes @("10.2.0.0/24","10.3.0.0/24") `
             -DnsServers @("8.8.8.8","8.8.8.4")
+
+$storages = Get-AzureRmStorageAccount
+$storage = $storages[0]
+$storage | Test-AzRmStorageAccount `
+            -StorageAccountName diintugy6w5poazfunctions `
+            -SkuName StandardLRS `
+            -Location westus `
+            -EnableHttpsTrafficOnly true
 
 ```
 
@@ -53,3 +59,8 @@ The result is following.
   - Location
   - AddressPrefixes
   - DnsServers
+- Storage Account
+  - StorageAccountName,
+  - Location,
+  - SkuName,
+  - EnableHttpsTrafficOnly
