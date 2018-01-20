@@ -80,3 +80,48 @@ function Test-AzRmVm {
 }
 
 Export-ModuleMember -Function Test-AzRmVm
+
+<#
+    .SYNOPSIS
+    Check the status of Virtual Network by Pester
+#>
+function Test-AzRmVnet {
+
+    [CmdletBinding()]
+    param(
+        [Parameter(ValueFromPipeline=$true,Mandatory=$true)]
+        [Microsoft.Azure.Commands.Network.Models.PSVirtualNetwork]$vnet,
+        [String]$Name,
+        [String]$Location,
+        [System.Array]$AddressPrefixes,
+        [System.Array]$DnsServers
+    )
+
+    Describe "Checking Virtual Network" {
+        if($name){
+            it "Vnet name should be $name" {
+                $vnet.Name | Should Be $name
+            }
+        }
+
+        if($Location){
+            it "Vnet location should be $Location" {
+                $vnet.Location | Should Be $Location
+            }
+        }
+
+        if($AddressPrefixes){
+            it "Vnet AddressPrefixes should be $AddressPrefixes" {
+                $vnet.AddressSpace.AddressPrefixes -join "," | Should be ($AddressPrefixes -join ",")
+            }
+        }
+
+        if($DnsServers){
+            it "DnsServers should be $DnsServers" {
+                $vnet.DhcpOptions.DnsServers -join "," | Should be ($DnsServers -join ",")
+            }
+        }
+    }
+}
+
+Export-ModuleMember -Function Test-AzRmVnet
