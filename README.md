@@ -22,6 +22,8 @@ $vm | Test-AzRmVm -Name testvm `
             -PrivateIpAddress 10.2.3.4 `
             -AdminUsername aimless `
             -DataDisks_Count 0
+            -RelatedNsgName testvm-nsg `
+            -DnsServers @("1.1.1.1", "2.2.2.1")
 
 $vnets = Get-AzureRmVirtualNetwork
 $vnet = $vnets[0]
