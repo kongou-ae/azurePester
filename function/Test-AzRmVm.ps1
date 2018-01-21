@@ -99,12 +99,13 @@ function Test-AzRmVm {
           }           
       }
 
+      $DataDisks_Count = $DataDisks_Count.ToString()
       if($DataDisks_Count){
           it "DataDisks_Count $Method $DataDisks_Count" {
               switch ($Method) {
-                  "Should Be"         { $vm.StorageProfile.DataDisks.Count | Should Be $DataDisks_Count }
-                  "Should BeExactly"  { $vm.StorageProfile.DataDisks.Count | Should BeExactly $DataDisks_Count }
-                  "Should Match"      { $vm.StorageProfile.DataDisks.Count | Should Match $DataDisks_Count }
+                  "Should Be"         { $vm.StorageProfile.DataDisks.Count.ToString() | Should Be $DataDisks_Count }
+                  "Should BeExactly"  { $vm.StorageProfile.DataDisks.Count.ToString() | Should BeExactly $DataDisks_Count }
+                  "Should Match"      { $vm.StorageProfile.DataDisks.Count.ToString() | Should Match $DataDisks_Count }
               }
               
           }                
