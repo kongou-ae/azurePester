@@ -75,6 +75,8 @@ $vnet | Test-AzRmVnet -Method "Should Match" `
   - PrivateIpAddress
   - AdminUsername
   - DataDisks_Count
+  - RelatedNsgName
+  - DnsServers
 - Virtual Network
   - Name
   - Location
