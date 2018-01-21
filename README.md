@@ -44,6 +44,25 @@ The result is following.
 
 ![](./result.PNG)
 
+
+## Method
+
+azurePester supports three assertion methods of Pester. Default is `Should Be`. Others are `Should BeExactly` and `Should Match`. You can set `-Method` parameter to use other methods.
+
+```powershell
+$vnets = Get-AzureRmVirtualNetwork
+$vnet = $vnets[0]
+
+# The name of VNet is azurelabvnet648. So this check is OK.
+$vnet | Test-AzRmVnet -Method "Should Match" `
+            -Name ^azurelab
+
+# This check is NG
+$vnet | Test-AzRmVnet -Method "Should Match" `
+            -Name ^lab
+```
+
+
 ## Supported recources
 
 - Virtual Machine
@@ -60,7 +79,7 @@ The result is following.
   - AddressPrefixes
   - DnsServers
 - Storage Account
-  - StorageAccountName,
-  - Location,
-  - SkuName,
+  - StorageAccountName
+  - Location
+  - SkuName
   - EnableHttpsTrafficOnly
