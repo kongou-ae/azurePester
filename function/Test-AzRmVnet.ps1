@@ -16,8 +16,9 @@ function Test-AzRmVnet {
       [System.Array]$AddressPrefixes,
       [System.Array]$DnsServers
   )
+  $TargetVnetName = $vnet.Name.ToString()
 
-  Describe "Checking Virtual Network" {
+  Describe "Checking Virtual Network ($TargetVnetName)" {
       if($Name){
           it "Vnet name $Method $Name" {
               switch ($Method) {

@@ -37,7 +37,9 @@ function Test-AzRmVm {
       return $nic.IpConfigurations[0].PrivateIpAddress
   }
 
-  Describe "Checking Virtual Machine" {
+  $TargetVmName = $vm.Name.ToString()
+
+  Describe "Checking Virtual Machine ($TargetVmName)" {
       if($name){
           it "VM name $Method $name" {
               switch ($Method) {

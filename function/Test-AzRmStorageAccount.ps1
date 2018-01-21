@@ -17,8 +17,9 @@ function Test-AzRmStorageAccount {
       [String]$SkuName,
       [String]$EnableHttpsTrafficOnly
   )
+  $TargetStorageAccountName = $storage.StorageAccountName.ToString()
 
-  Describe "Checking Storage Account" {
+  Describe "Checking Storage Account ($TargetStorageAccountName)" {
       if($StorageAccountName){
           it "Storage Account $Method $StorageAccountName" {
               switch ($Method) {
