@@ -42,13 +42,13 @@ function Test-AzRmVm {
   function Get-VmRelatedNsgName {
     param(
       [string]$NetworkInterfacesId
-    )      
+    )
   
     $re = New-Object regex("\/resourceGroups\/(.*)\/providers\/")
-    $ResourceGroupName = $re.Matches($nicid).Groups[1].Value
+    $ResourceGroupName = $re.Matches($NetworkInterfacesId).Groups[1].Value
     
     $re = New-Object regex("Microsoft.Network\/networkInterfaces\/(.*)")
-    $nicName = $re.Matches($nicid).Groups[1].Value
+    $nicName = $re.Matches($NetworkInterfacesId).Groups[1].Value
     
     $VmNic = Get-AzureRMNetworkInterface -Name $nicName -ResourceGroupName $ResourceGroupName
     $re = New-Object regex("Microsoft.Network\/networkSecurityGroups/(.*)")
@@ -60,10 +60,10 @@ function Test-AzRmVm {
       [string]$NetworkInterfacesId
     )
     $re = New-Object regex("\/resourceGroups\/(.*)\/providers\/")
-    $ResourceGroupName = $re.Matches($nicid).Groups[1].Value
+    $ResourceGroupName = $re.Matches($NetworkInterfacesId).Groups[1].Value
     
     $re = New-Object regex("Microsoft.Network\/networkInterfaces\/(.*)")
-    $nicName = $re.Matches($nicid).Groups[1].Value
+    $nicName = $re.Matches($NetworkInterfacesId).Groups[1].Value
     
     $VmNic = Get-AzureRMNetworkInterface -Name $nicName -ResourceGroupName $ResourceGroupName
     return $VmNic.DnsSettings.DnsServers -join ","
@@ -146,7 +146,7 @@ function Test-AzRmVm {
     }
 
     if ($RelatedNsgName) {
-      it "Related Network Security Group $Method $RelatedNsgName" {
+      it "Related Network Security Group $Method $RelatedNsgName" {      
         switch ($Method) {
           "Should Be" { Get-VmRelatedNsgName($vm.NetworkProfile.NetworkInterfaces[0].id) | Should Be $RelatedNsgName }
           "Should BeExactly" { Get-VmRelatedNsgName($vm.NetworkProfile.NetworkInterfaces[0].id) | Should BeExactly $RelatedNsgName }
